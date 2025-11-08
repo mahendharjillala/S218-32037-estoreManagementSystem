@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: springboot-app
+    env: java
+    buildCommand: ./mvnw clean package
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://yamanote.proxy.rlwy.net:37749/railway
+      - key: SPRING_DATASOURCE_USERNAME
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: TWznHMLSfeQdEczMHKEMddeQGZGqSqsx
