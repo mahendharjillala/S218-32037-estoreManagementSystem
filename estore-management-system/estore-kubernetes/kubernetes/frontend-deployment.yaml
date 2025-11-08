@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: estore-frontend
+  labels:
+    app: estore
+    tier: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: estore
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: estore
+        tier: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: estore-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: VITE_API_URL
+          value: "http://estore-backend:8086"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: estore-frontend
+  labels:
+    app: estore
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30000
+  selector:
+    app: estore
+    tier: frontend
